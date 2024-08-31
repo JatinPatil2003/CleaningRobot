@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<robot name="naviclean" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:arg name="is_sim" default="true"></xacro:arg>
+
+<xacro:include filename="$(find naviclean_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find naviclean_description)/urdf/naviclean.trans" />
+<xacro:include filename="$(find naviclean_description)/urdf/naviclean.gazebo" />
+<xacro:include filename="$(find naviclean_description)/urdf/naviclean_ros2_control.xacro" />
+
+<link name="base_footprint"/>
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.0017954772285289646 -0.000557274001101866 0.10557528717752657" rpy="0 0 0"/>
+    <mass value="8.848545144554517"/>
+    <inertia ixx="0.114087" iyy="0.120961" izz="0.134988" ixy="-0.003548" iyz="0.004215" ixz="0.006819"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="red"/>
+  </visual>
+  <collision>
+    <!-- <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry> -->
+    <origin xyz="0.0 0 0.005" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.35 0.25 0.0085" />
+    </geometry>
+  </collision>
+</link>
+
+<joint name="basefoot2baselink" type="fixed">
+  <parent link="base_footprint"/>
+  <child link="base_link"/>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="0 0 0"/>
+</joint>
+
+<link name="right_wheel_1">
+  <inertial>
+    <origin xyz="-1.9475303414941916e-15 -0.007842031913982417 1.2323475573339238e-14" rpy="0 0 0"/>
+    <mass value="1.0207980214073957"/>
+    <inertia ixx="0.000884" iyy="0.00167" izz="0.000884" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0 0.144 -0.05" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/right_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0 0.144 -0.05" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/right_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="left_wheel_1">
+  <inertial>
+    <origin xyz="2.5866925465521704e-15 0.007842031913982556 1.2288781103819701e-14" rpy="0 0 0"/>
+    <mass value="1.0207980214073957"/>
+    <inertia ixx="0.000884" iyy="0.00167" izz="0.000884" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0 -0.144 -0.05" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/left_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="black"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0 -0.144 -0.05" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/left_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="ydlidar_1">
+  <inertial>
+    <origin xyz="0.026706155403509572 0.025000237545982823 0.037701142222791084" rpy="0 0 0"/>
+    <mass value="1.1515616542314233"/>
+    <inertia ixx="0.000489" iyy="0.000861" izz="0.000987" ixy="-0.0" iyz="-0.0" ixz="-0.000148"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0 0.0 -0.335" rpy="0 0 3.1416"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/ydlidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="blue"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0 0.0 -0.335" rpy="0 0 3.1416"/>
+    <geometry>
+      <mesh filename="package://naviclean_description/meshes/ydlidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="base2right" type="continuous">
+  <origin xyz="0.0 -0.144 0.05" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="right_wheel_1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+</joint>
+
+<joint name="base2left" type="continuous">
+  <origin xyz="0.0 0.144 0.05" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="left_wheel_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="base2lidar" type="fixed">
+  <origin xyz="-0.0 -0.0 0.335" rpy="0 0 3.1416"/>
+  <parent link="base_link"/>
+  <child link="ydlidar_1"/>
+</joint>
+
+</robot>
