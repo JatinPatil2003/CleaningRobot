@@ -1,0 +1,18 @@
+<launch>
+  <param name="robot_description"
+    command="$(find xacro)/xacro $(find cleaning_robot_description)/urdf/cleaning_robot.xacro" />
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+    args="-param robot_description -urdf -model cleaning_robot" />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false" />
+    <arg name="use_sim_time" value="true" />
+    <arg name="gui" value="true" />
+    <arg name="headless" value="false" />
+    <arg name="debug" value="false" />
+  </include>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+  </node>
+</launch>

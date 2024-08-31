@@ -1,0 +1,5 @@
+<launch>
+    <arg name="rvizconfig" default="$(find cleaning_robot_navigation)/rviz/navigation.rviz" />
+    <node name="rviz" pkg="rviz" args="-d $(arg rvizconfig)" type="rviz" required="true" />
+</launch>
+  

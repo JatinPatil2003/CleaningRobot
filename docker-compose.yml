@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ros1:
+    image: jatinvpatil/cleaning_robot:latest
+    command: bash -c "source /opt/ros/noetic/setup.bash && roscore"
+    volumes:
+      - "~/catkin_ws/src/cleaning_robot:/catkin_ws/src"
+    # devices:
+    #   - "/dev/arduino_mega_1:/dev/arduino_mega_1"
+    #   - "/dev/arduino_mega_2:/dev/arduino_mega_2"
+    network_mode: "host"
+
+  # bridge:
+  #   environment:
+  #     - "ROS_HOSTNAME=bridge"
+  #     - "ROS_MASTER_URI=http://ros1:11311"
+  #   network_mode: "host"
+  #   # deploy:
+  #   #   restart_policy:
+  #   #     condition: on-failure
