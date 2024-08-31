@@ -14,8 +14,9 @@ find_package(std_msgs REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
-find_package(PkgConfig)
+find_package(PkgConfig REQUIRED)
 find_package(serial REQUIRED)
+pkg_check_modules(LibSerial REQUIRED IMPORTED_TARGET libserial)
 
 add_library(${PROJECT_NAME} SHARED 
   src/naviclean_interface.cpp
@@ -27,6 +28,11 @@ ament_target_dependencies(${PROJECT_NAME}
   serial
   rclcpp
   rclcpp_lifecycle
+)
+
+# Link LibSerial
+target_link_libraries(${PROJECT_NAME}
+  PkgConfig::LibSerial
 )
 
 install(

@@ -26,9 +26,9 @@ NavicleanInterface::NavicleanInterface()
 
 NavicleanInterface::~NavicleanInterface()
 {
-  if (esp_.isOpen()) {
+  if (esp_.IsOpen()) {
     try {
-      esp_.close();
+      esp_.Close();
     } catch (...) {
       RCLCPP_FATAL_STREAM(rclcpp::get_logger("NavicleanInterface"),
         "Something went wrong while closing connection with port " << port_);
@@ -99,9 +99,8 @@ hardware_interface::CallbackReturn NavicleanInterface::on_activate(
   }
 
   try {
-    esp_.setPort(port_);
-    esp_.setBaudrate(115200);
-    esp_.open();
+    esp_.Open(port_);
+    esp_.SetBaudRate(LibSerial::BaudRate::BAUD_115200);
   } catch (...) {
     RCLCPP_FATAL_STREAM(rclcpp::get_logger("NavicleanInterface"),
                         "Something went wrong while interacting with port " << port_);
@@ -118,9 +117,9 @@ hardware_interface::CallbackReturn NavicleanInterface::on_deactivate(
 {
   RCLCPP_INFO(rclcpp::get_logger("NavicleanInterface"), "Deactivating ...please wait...");
 
-  if (esp_.isOpen()) {
+  if (esp_.IsOpen()) {
     try {
-      esp_.close();
+      esp_.Close();
     } catch (...) {
       RCLCPP_FATAL_STREAM(rclcpp::get_logger("NavicleanInterface"),
         "Something went wrong while closing connection with port " << port_);
@@ -138,7 +137,7 @@ hardware_interface::return_type NavicleanInterface::read(
   RCLCPP_INFO(rclcpp::get_logger("NavicleanInterface"), 
       "Read");
   std::string message;
-  esp_.readline(message);
+  esp_.ReadLine(message);
   
   size_t commaIndex = message.find(',');
   if (commaIndex != std::string::npos) {
@@ -166,7 +165,7 @@ hardware_interface::return_type naviclean_firmware::NavicleanInterface::write(
 
   ss << leftCmd << "," << rightCmd << "\n";
   try {
-    esp_.write(ss.str());
+    esp_.Write(ss.str());
   } catch (...) {
     RCLCPP_ERROR_STREAM(rclcpp::get_logger("NavicleanInterface"),
       "Something went wrong while sending the message " << ss.str() << " to the port " << port_);

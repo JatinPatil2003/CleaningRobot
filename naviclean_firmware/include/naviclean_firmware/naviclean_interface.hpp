@@ -24,6 +24,8 @@
 #include "rclcpp_lifecycle/state.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 
+#include <libserial/SerialPort.h>
+
 namespace naviclean_firmware
 {
 
@@ -51,7 +53,7 @@ public:
     const rclcpp::Duration &) override;
 
 private:
-  serial::Serial esp_;
+  LibSerial::SerialPort esp_;
   std::string port_;
   std::vector<double> hw_commands_;
   std::vector<double> hw_positions_;
