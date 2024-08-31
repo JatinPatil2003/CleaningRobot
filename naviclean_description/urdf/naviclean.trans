@@ -1,13 +1,13 @@
 <?xml version="1.0" ?>
-<robot name="cleaning_robot" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<robot name="naviclean" xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
 <transmission name="base2right_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="base2right">
-    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
   </joint>
   <actuator name="base2right_actr">
-    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>
@@ -15,10 +15,10 @@
 <transmission name="base2left_tran">
   <type>transmission_interface/SimpleTransmission</type>
   <joint name="base2left">
-    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
   </joint>
   <actuator name="base2left_actr">
-    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     <mechanicalReduction>1</mechanicalReduction>
   </actuator>
 </transmission>

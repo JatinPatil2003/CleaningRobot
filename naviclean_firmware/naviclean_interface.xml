@@ -1,0 +1,10 @@
+<library path="naviclean_firmware">
+    <class name="naviclean_firmware/NavicleanInterface"
+      type="naviclean_firmware::NavicleanInterface"
+      base_class_type="hardware_interface::SystemInterface"
+    >
+      <description>
+        Naviclean Hardware Interface
+      </description>
+    </class>
+  </library>
