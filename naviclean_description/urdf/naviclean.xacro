@@ -28,7 +28,7 @@
     <geometry>
       <mesh filename="package://naviclean_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry> -->
-    <origin xyz="0.0 0 0.005" rpy="0 0 0"/>
+    <origin xyz="0.0 0 0.006" rpy="0 0 0"/>
     <geometry>
       <box size="0.35 0.25 0.0085" />
     </geometry>
