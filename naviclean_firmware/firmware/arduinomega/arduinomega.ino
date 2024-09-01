@@ -5,10 +5,11 @@
 #define Encoder_output_A_right 2 // pin2 of the Arduino
 #define Encoder_output_B_right 4 // pin 3 of the Arduino
 
-#define Motor_L_Dir 8
-#define Motor_L_PWM 9
 #define Motor_R_Dir 6
 #define Motor_R_PWM 7
+#define Motor_L_Dir 8
+#define Motor_L_PWM 9
+
 
 #define Motor_ticks 3133 // Number of encoder ticks per revolution
 
