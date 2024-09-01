@@ -77,9 +77,9 @@
       <robot_param>robot_description</robot_param>
       <robot_param_node>robot_state_publisher</robot_param_node>
       <parameters>$(find naviclean_controller)/config/naviclean_controller.yaml</parameters>
-      <ros>
+      <!-- <ros>
         <remapping>/naviclean_controller/cmd_vel_unstamped:=/cmd_vel</remapping>
-      </ros>
+      </ros> -->
     </plugin>
   </gazebo>
 

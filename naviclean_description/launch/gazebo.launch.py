@@ -69,7 +69,7 @@ def generate_launch_description():
         executable="spawn_entity.py",
         arguments=[
             "-entity",
-            "bumperbot",
+            "naviclean",
             "-topic",
             "robot_description",
         ],

@@ -45,7 +45,7 @@ naviclean_controller:
     publish_wheel_data: true
 
     # Publish to TF directly or not
-    enable_odom_tf: false
+    enable_odom_tf: true
 
     # Velocity and acceleration limits
     # Whenever a min_* is unspecified, default to -max_*

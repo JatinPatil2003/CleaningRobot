@@ -23,7 +23,6 @@ def generate_launch_description():
             "--controller-manager",
             "/controller_manager",
         ],
-        # remappings=["/cmd_vel","/naviclean_controller/cmd_vel_unstamped"],
     )
 
     return LaunchDescription(

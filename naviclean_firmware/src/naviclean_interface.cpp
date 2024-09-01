@@ -98,6 +98,15 @@ hardware_interface::CallbackReturn NavicleanInterface::on_activate(
     }
   }
 
+  if (esp_.IsOpen()) {
+    try {
+      esp_.Close();
+    } catch (...) {
+      RCLCPP_FATAL_STREAM(rclcpp::get_logger("NavicleanInterface"),
+        "Something went wrong while closing connection with port " << port_);
+    }
+  }
+
   try {
     esp_.Open(port_);
     esp_.SetBaudRate(LibSerial::BaudRate::BAUD_115200);
@@ -134,8 +143,6 @@ hardware_interface::CallbackReturn NavicleanInterface::on_deactivate(
 hardware_interface::return_type NavicleanInterface::read(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
-  RCLCPP_INFO(rclcpp::get_logger("NavicleanInterface"), 
-      "Read");
   std::string message;
   esp_.ReadLine(message);
   
@@ -143,12 +150,17 @@ hardware_interface::return_type NavicleanInterface::read(
   if (commaIndex != std::string::npos) {
     std::string leftPos = message.substr(0, commaIndex);
     std::string rightPos = message.substr(commaIndex + 1);
-    RCLCPP_INFO(rclcpp::get_logger("NavicleanInterface"), 
-      "Read - %s, %s", leftPos.c_str(), rightPos.c_str());
 
-    // Convert the strings to float variables
-    hw_positions_[1] = std::stof(leftPos) * 2 * M_PI / 1600.0;
-    hw_positions_[0] = std::stof(rightPos) * 2 * M_PI / 1600.0;
+    // RCLCPP_INFO(rclcpp::get_logger("NavicleanInterface"), 
+    //   "Read - %s, %s", leftPos.c_str(), rightPos.c_str());
+
+    try {
+      hw_positions_[1] = std::stof(leftPos) * -1;
+      hw_positions_[0] = std::stof(rightPos);
+    } catch(const std::exception& e) {
+      RCLCPP_ERROR(rclcpp::get_logger("NavicleanInterface"), 
+        "Invalid argument for conversion: %s", e.what());
+    }
   }
   return hardware_interface::return_type::OK;
 }
@@ -157,11 +169,11 @@ hardware_interface::return_type naviclean_firmware::NavicleanInterface::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
   std::stringstream ss;
-  auto leftCmd = hw_commands_[1] * 1600.0 / (2 * M_PI);
-  auto rightCmd = hw_commands_[0] * 1600.0 / (2 * M_PI);
+  auto leftCmd = hw_commands_[1] * -1;
+  auto rightCmd = hw_commands_[0];
 
-  RCLCPP_INFO(rclcpp::get_logger("NavicleanInterface"), 
-    "Write - %f, %f", leftCmd, rightCmd);
+  // RCLCPP_INFO(rclcpp::get_logger("NavicleanInterface"), 
+  //   "Write - %f, %f", leftCmd, rightCmd);
 
   ss << leftCmd << "," << rightCmd << "\n";
   try {
