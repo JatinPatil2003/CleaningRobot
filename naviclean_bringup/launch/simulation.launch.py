@@ -28,6 +28,5 @@ def generate_launch_description():
         [
             gazebo,
             controller,
-            # set_init_pose
         ]
     )

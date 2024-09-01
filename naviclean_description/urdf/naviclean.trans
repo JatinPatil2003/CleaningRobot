@@ -1,26 +1,51 @@
-<?xml version="1.0" ?>
-<robot name="naviclean" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<?xml version="1.0"?>
+<robot name="naviclean" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<transmission name="base2right_tran">
-  <type>transmission_interface/SimpleTransmission</type>
-  <joint name="base2right">
-    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-  </joint>
-  <actuator name="base2right_actr">
-    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    <mechanicalReduction>1</mechanicalReduction>
-  </actuator>
-</transmission>
+  <xacro:if value="$(arg is_sim)">
+    <transmission name="base2rightw_tran">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="base2rightw">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="base2rightw_actr">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
 
-<transmission name="base2left_tran">
-  <type>transmission_interface/SimpleTransmission</type>
-  <joint name="base2left">
-    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-  </joint>
-  <actuator name="base2left_actr">
-    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    <mechanicalReduction>1</mechanicalReduction>
-  </actuator>
-</transmission>
+    <transmission name="base2leftw_tran">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="base2leftw">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="base2leftw_actr">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:if>
 
+  <xacro:unless value="$(arg is_sim)">
+    <transmission name="base2right_tran">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="base2right">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="base2right_actr">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="base2left_tran">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="base2left">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="base2left_actr">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:unless>
 </robot>
