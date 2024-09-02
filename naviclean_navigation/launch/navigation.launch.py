@@ -25,7 +25,7 @@ def generate_launch_description():
     )
 
     nav2_config_path = PathJoinSubstitution(
-        [FindPackageShare('naviclean_navigation'), 'config', 'navigation.yaml']
+        [FindPackageShare('naviclean_navigation'), 'config', 'navigation_spiralstc.yaml']
     )
 
     return LaunchDescription([

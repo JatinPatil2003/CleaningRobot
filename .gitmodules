@@ -1,0 +1,4 @@
+[submodule "full_coverage_path_planner"]
+	path = full_coverage_path_planner
+	url = https://github.com/nobleo/full_coverage_path_planner.git
+	branch = ros2
