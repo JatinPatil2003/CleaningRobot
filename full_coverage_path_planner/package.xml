@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>full_coverage_path_planner</name>
+  <version>0.6.4</version>
+  <description>Full coverage path planning provides a nav2 plugin that can plan a path that will fully cover a given area</description>
+  <author email="cesar.lopez@nobleo.nl">Cesar Lopez</author>
+  <author email="ferry.schoenmakers@nobleo.nl">Ferry Schoenmakers</author>
+  <author email="tim.clephas@nobleo.nl">Tim Clephas</author>
+  <author email="jerrel.unkel@nobleo.nl">Jerrel Unkel</author>
+  <author>Loy van Beek</author>
+  <author>Yury Brodskiy</author>
+  <maintainer email="cesar.lopez@nobleo.nl">Cesar Lopez</maintainer>
+  <maintainer email="tim.clephas@nobleo.nl">Tim Clephas</maintainer>
+
+  <license>Apache 2.0</license>
+  <url>http://wiki.ros.org/full_coverage_path_planner</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>backward_ros</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav2_common</depend>
+  <depend>nav2_core</depend>
+  <depend>nav2_costmap_2d</depend>
+  <depend>nav2_msgs</depend>
+  <depend>nav2_util</depend>
+  <depend>nav_msgs</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <depend>tf2_ros</depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>nav2_amcl</exec_depend>
+  <exec_depend>nav2_map_server</exec_depend>
+  <exec_depend>nav2_planner</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+
+  <test_depend>ament_cmake_clang_format</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_cmake_test</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>cv_bridge</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+    <nav2_core plugin="${prefix}/fcpp_spiral_plugin.xml"/>
+  </export>
+
+</package>

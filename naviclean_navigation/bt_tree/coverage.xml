@@ -1,0 +1,17 @@
+<!--
+  This Behavior Tree follows a dynamic pose to a certain distance
+-->
+
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <PipelineSequence name="NavigateWithReplanning">
+            <!-- <ClearEntireCostmap name="ClearGlobalCostmap-Context" service_name="global_costmap/clear_entirely_global_costmap"/> -->
+            <ComputePathToPose goal="{goal}" path="{path}" planner_id="GridBased" />
+            <KeepRunningUntilFailure>
+                <!-- <Sequence name="follow"> -->
+                    <FollowPath path="{path}" controller_id="FollowPath"/>
+                <!-- </Sequence> -->
+            </KeepRunningUntilFailure>
+        </PipelineSequence>
+    </BehaviorTree>
+</root>
