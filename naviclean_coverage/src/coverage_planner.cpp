@@ -126,15 +126,15 @@ void CoveragePlanner::display_modified_map()
 
         goal_points_ = generate_map_points(goal_points_);
 
-        // for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
-        // {
-        //     for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
-        //     {
-        //         std::cout << goal_points_[i][j] << std::endl;
-        //     }
-        //     std::cout << std::endl
-        //               << std::endl;
-        // }
+        for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
+        {
+            for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
+            {
+                std::cout << goal_points_[i][j] << std::endl;
+            }
+            std::cout << std::endl
+                      << std::endl;
+        }
 
         cv::namedWindow("Modified Map", cv::WINDOW_NORMAL); // Make the window resizable
         cv::imshow("Modified Map", modified_map);           // Display the modified grayscale map
