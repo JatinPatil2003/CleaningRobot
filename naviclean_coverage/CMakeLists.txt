@@ -9,8 +9,10 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(nav2_msgs REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(yaml-cpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 
 # Include directories
 include_directories(
@@ -21,6 +23,7 @@ include_directories(
 
 # Define the executable
 add_executable(coverage_planner_node
+  src/controller.cpp
   src/map_loader.cpp
   src/coverage_planner.cpp
   src/coverage_planner_node.cpp
@@ -37,8 +40,10 @@ target_link_libraries(coverage_planner_node
 ament_target_dependencies(coverage_planner_node
   rclcpp
   nav_msgs
+  nav2_msgs
   OpenCV
   yaml-cpp
+  rclcpp_action
 )
 
 # Install the executable
