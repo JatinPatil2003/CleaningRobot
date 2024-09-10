@@ -17,8 +17,8 @@ amcl:
     laser_min_range: -1.0
     laser_model_type: "likelihood_field"
     max_beams: 100
-    max_particles: 10000
-    min_particles: 2000
+    max_particles: 2000
+    min_particles: 500
     odom_frame_id: "odom"
     pf_err: 0.05
     pf_z: 0.99
@@ -156,16 +156,16 @@ controller_server:
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
-      angular_dist_threshold: 0.2
+      angular_dist_threshold: 0.1
       forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 0.9
-      max_angular_accel: 1.8
-      simulate_ahead_time: 0.5
+      rotate_to_heading_angular_vel: 1.0
+      max_angular_accel: 2.0
+      simulate_ahead_time: 0.3
 
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.5
+      max_vel_x: 0.25
       max_vel_y: 0.0
       max_vel_theta: 1.0
       min_speed_xy: 0.0

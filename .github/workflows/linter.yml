@@ -22,4 +22,4 @@ jobs:
       with:
         linter: ${{ matrix.linter }}
         distribution: rolling
-        package-name: "naviclean_bringup naviclean_controller naviclean_description naviclean_firmware naviclean_mapping naviclean_navigation naviclean_coverage"
+        package-name: "naviclean_bringup naviclean_controller naviclean_description naviclean_firmware naviclean_mapping naviclean_navigation naviclean_coverage naviclean_utils"
