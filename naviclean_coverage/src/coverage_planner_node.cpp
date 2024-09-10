@@ -2,6 +2,12 @@
 #include "coverage_planner.hpp"
 #include "controller.hpp"
 #include <rclcpp/rclcpp.hpp>
+#include <thread>
+
+
+// void func(const CoveragePlanner coverage_planner) {
+//     rclcpp::spin(node);
+// }
 
 int main(int argc, char** argv) {
     rclcpp::init(argc, argv);
@@ -10,11 +16,18 @@ int main(int argc, char** argv) {
     auto node = std::make_shared<rclcpp::Node>("Coverage_Planner_Node");
 
     // MapLoader and CoveragePlanner objects
-    // CoveragePlanner coverage_planner(node);
+    CoveragePlanner coverage_planner(node);
     RCLCPP_INFO(node->get_logger(), "Sending goal");
-    SendGoal send_goal(node);
 
-    send_goal.set_goal(0.0, 0.0);
+    std::thread spin_thread([&coverage_planner]() {
+        coverage_planner.start();
+    });
+    spin_thread.detach();
+
+
+    // SendGoal send_goal(node);
+
+    // send_goal.set_goal(0.0, 0.0);
 
     // map_loader.load_map();
 

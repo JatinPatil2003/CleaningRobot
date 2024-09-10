@@ -3,9 +3,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <algorithm>
+#include <thread>
 
 CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
-    : MapLoader(node), node_(node)
+    : MapLoader(node), SendGoal(node), node_(node)
 {
     // Initialize map parameters
     map_data_ = MapLoader::get_map_data();
@@ -50,7 +51,7 @@ bool CoveragePlanner::distance_to_nearest_black(int y, int x) const
 void CoveragePlanner::mapToWorld(unsigned int mx, unsigned int my, double &wx, double &wy) const
 {
     wx = origin_x_ + (mx + 0.5) * resolution_;
-    wy = origin_y_ + (my + 0.5) * resolution_;
+    wy = - origin_y_ - (my + 0.5) * resolution_;
 }
 
 cv::Point2f CoveragePlanner::pixel_to_map_coordinates(int x, int y) const
@@ -136,10 +137,11 @@ void CoveragePlanner::display_modified_map()
                       << std::endl;
         }
 
-        cv::namedWindow("Modified Map", cv::WINDOW_NORMAL); // Make the window resizable
-        cv::imshow("Modified Map", modified_map);           // Display the modified grayscale map
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        std::thread display_thread([this, modified_map]() {
+            this->display_map(modified_map);
+        });
+        display_thread.detach();
+
     }
     else
     {
@@ -270,4 +272,37 @@ std::vector<std::vector<cv::Point2f>> CoveragePlanner::optimize_points()
         final_points.push_back(points);
     }
     return final_points;
+}
+
+void CoveragePlanner::display_map(const cv::Mat& map_image) {
+    cv::namedWindow("Modified Map", cv::WINDOW_NORMAL); // Make the window resizable
+    cv::imshow("Modified Map", map_image);           // Display the modified grayscale map
+    cv::waitKey(0);
+    cv::destroyAllWindows();
+}
+
+void CoveragePlanner::start(){
+    for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
+    {
+        for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
+        {
+            std::cout << goal_points_[i][j] << std::endl;
+            set_goal(goal_points_[i][j].x, goal_points_[i][j].y);
+            do
+            {
+                std::cout << get_feedback() << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Prevent busy-waiting
+            } while (get_feedback() >= 0.15);
+
+            cancel_goal();
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            
+            // while(get_feedback() >= 0.15){
+            //     rclcpp::spin_some(node_);
+            // }
+            
+        }
+        std::cout << std::endl
+                    << std::endl;
+    }
 }
