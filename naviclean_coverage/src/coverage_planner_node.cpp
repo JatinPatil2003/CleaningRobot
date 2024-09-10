@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
 
     // MapLoader and CoveragePlanner objects
     CoveragePlanner coverage_planner(node);
-    RCLCPP_INFO(node->get_logger(), "Sending goal");
+    RCLCPP_INFO(node->get_logger(), "Starting CoveragePlanner");
 
     std::thread spin_thread([&coverage_planner]() {
         coverage_planner.start();

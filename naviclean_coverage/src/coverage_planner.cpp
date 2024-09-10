@@ -292,7 +292,7 @@ void CoveragePlanner::start(){
             {
                 std::cout << get_feedback() << std::endl;
                 std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Prevent busy-waiting
-            } while (get_feedback() >= 0.1);
+            } while (get_feedback() >= 0.15);
 
             cancel_goal();
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
