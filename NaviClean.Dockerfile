@@ -29,34 +29,6 @@ RUN git clone https://github.com/YDLIDAR/YDLidar-SDK.git \
     && make \
     && make install
 
-COPY /serial /serial
-
-RUN source /opt/ros/humble/setup.sh \
-    && cd /serial \
-    && mkdir build \
-    && cd build \
-    && cmake .. \
-    && make \
-    && make install
-
-# COPY /autonav_controller /colcon_ws/src/autonav_controller
-
-# COPY /autonav_description /colcon_ws/src/autonav_description
-
-# COPY /autonav_firmware /colcon_ws/src/autonav_firmware
-
-# COPY /autonav_bringup /colcon_ws/src/autonav_bringup
-
-# COPY /autonav_localization /colcon_ws/src/autonav_localization
-
-# COPY /autonav_navigation /colcon_ws/src/autonav_navigation
-
-# COPY /autonav_perception /colcon_ws/src/autonav_perception
-
-# COPY /bno055 /colcon_ws/src/bno055
-
-# COPY /ydlidar_ros2_driver /colcon_ws/src/ydlidar_ros2_driver
-
 COPY naviclean_entrypoint.bash /naviclean_entrypoint.bash
 
 RUN chmod +x /naviclean_entrypoint.bash
