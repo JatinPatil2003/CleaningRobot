@@ -18,6 +18,10 @@ public:
 
     void set_goal(const float x, const float y);
 
+    double get_feedback();
+
+    void cancel_goal();
+
 private:
     rclcpp_action::Client<NavigateToPose>::SharedPtr client_;
 
@@ -26,6 +30,8 @@ private:
     rclcpp_action::Client<nav2_msgs::action::NavigateToPose>::SendGoalOptions send_goal_options_;
 
     NavigateToPose::Feedback feedback_;
+
+    GoalHandleNavigateToPose::SharedPtr goal_handle_;
 
     rclcpp::Node::SharedPtr node_;
 

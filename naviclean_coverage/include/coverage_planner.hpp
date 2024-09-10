@@ -2,12 +2,13 @@
 #define COVERAGE_PLANNER_HPP
 
 #include "map_loader.hpp"
+#include "controller.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include <opencv2/opencv.hpp>
 #include <yaml-cpp/yaml.h>
 #include <vector>
 
-class CoveragePlanner : public MapLoader {
+class CoveragePlanner : public MapLoader, SendGoal {
 public:
     CoveragePlanner(rclcpp::Node::SharedPtr node);
 
@@ -28,6 +29,8 @@ public:
 
     // Generate coverage path
     void get_path(std::vector<std::vector<std::pair<cv::Point2f, int>>>& points);
+
+    void start();
 
 private:
     rclcpp::Node::SharedPtr node_;
@@ -57,6 +60,8 @@ private:
     std::pair<int, int> get_index();
 
     void mapToWorld(unsigned int mx, unsigned int my, double & wx, double & wy) const;
+
+    void display_map(const cv::Mat& map_image);
 };
 
 #endif // COVERAGE_PLANNER_HPP
