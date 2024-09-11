@@ -51,12 +51,6 @@ install(TARGETS coverage_planner_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# Install other necessary files (e.g., launch files, RViz config, etc.)
-install(
-  DIRECTORY launch rviz config
-  DESTINATION share/${PROJECT_NAME}
-)
-
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   set(ament_cmake_copyright_FOUND TRUE)

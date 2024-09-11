@@ -33,17 +33,30 @@ COPY naviclean_entrypoint.bash /naviclean_entrypoint.bash
 
 RUN chmod +x /naviclean_entrypoint.bash
 
-# WORKDIR /colcon_ws
+COPY /naviclean_controller /colcon_ws/src/naviclean_controller
 
-# RUN /bin/bash -c 'source /opt/ros/humble/setup.bash \
-#     && colcon build --symlink-install'
+COPY /naviclean_description /colcon_ws/src/naviclean_description
 
-# RUN source /opt/ros/humble/setup.sh \
-#     && colcon build --executor sequential \
-#     && rm -rf log/ build/ src/ \
-#     && apt-get autoremove -y \
-#     && apt-get autoclean -y \
-#     && rm -rf /var/lib/apt/lists/*
+COPY /naviclean_firmware /colcon_ws/src/naviclean_firmware
+
+COPY /naviclean_bringup /colcon_ws/src/naviclean_bringup
+
+COPY /naviclean_mapping /colcon_ws/src/naviclean_mapping
+
+COPY /naviclean_navigation /colcon_ws/src/naviclean_navigation
+
+COPY /naviclean_coverage /colcon_ws/src/naviclean_coverage
+
+COPY /naviclean_utils /colcon_ws/src/naviclean_utils
+
+WORKDIR /colcon_ws
+
+RUN source /opt/ros/humble/setup.sh \
+    && colcon build --symlink-install
+    # && rm -rf log/ build/ src/ \
+    # && apt-get autoremove -y \
+    # && apt-get autoclean -y \
+    # && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["/naviclean_entrypoint.bash"]
 
