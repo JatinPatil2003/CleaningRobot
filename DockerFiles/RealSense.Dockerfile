@@ -54,6 +54,15 @@ COPY naviclean_entrypoint.bash /naviclean_entrypoint.bash
 
 RUN chmod +x /naviclean_entrypoint.bash
 
+WORKDIR /colcon_ws
+
+RUN source /opt/ros/humble/setup.sh \
+    && colcon build --symlink-install
+    # && rm -rf log/ build/ src/ \
+    # && apt-get autoremove -y \
+    # && apt-get autoclean -y \
+    # && rm -rf /var/lib/apt/lists/* 
+
 ENTRYPOINT ["/naviclean_entrypoint.bash"]
 
 CMD ["bash"]
