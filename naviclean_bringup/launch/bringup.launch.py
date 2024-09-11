@@ -43,7 +43,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[
-            {"robot_description": robot_description_file, "use_sim_time": False},
+            {"robot_description": robot_description_file},
             os.path.join(
                 get_package_share_directory("naviclean_controller"),
                 "config",

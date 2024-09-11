@@ -13,10 +13,10 @@
 
 #define Motor_ticks 3133 // Number of encoder ticks per revolution
 
-int Count_pulses_left = 0;
-int Count_pulses_right = 0;
-int previous_pulses_left = 0;
-int previous_pulses_right = 0;
+long long Count_pulses_left = 0;
+long long Count_pulses_right = 0;
+long long previous_pulses_left = 0;
+long long previous_pulses_right = 0;
 
 double right_setpoint = 0.0;
 double right_input = 0.0;

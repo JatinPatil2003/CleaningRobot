@@ -15,7 +15,7 @@
 #ifndef NAVICLEAN_FIRMWARE__NAVICLEAN_INTERFACE_SERIAL_HPP_
 #define NAVICLEAN_FIRMWARE__NAVICLEAN_INTERFACE_SERIAL_HPP_
 
-#include <serial/serial.h>
+// #include <serial/serial.h>
 #include <string>
 #include <vector>
 
