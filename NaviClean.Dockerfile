@@ -33,6 +33,10 @@ COPY naviclean_entrypoint.bash /naviclean_entrypoint.bash
 
 RUN chmod +x /naviclean_entrypoint.bash
 
+RUN apt-get update && apt-get install -y \
+    libserial-dev \
+    apt-utils
+
 COPY /naviclean_controller /colcon_ws/src/naviclean_controller
 
 COPY /naviclean_description /colcon_ws/src/naviclean_description
