@@ -9,20 +9,16 @@ jobs:
 
     strategy:
       matrix:
-        dockerfile:
-          - DockerFiles/NaviClean.Dockerfile
-          - DockerFiles/RealSense.Dockerfile
-          - DockerFiles/YDLidar.Dockerfile
-
-        cache-name:
-          - cache_naviclean
-          - cache_realsense
-          - cache_ydlidar
-
-        image-tag:
-          - naviclean
-          - realsense
-          - ydlidar
+        include:
+          - dockerfile: DockerFiles/NaviClean.Dockerfile
+            cache-name: cache_naviclean
+            image-tag: naviclean
+          - dockerfile: DockerFiles/RealSense.Dockerfile
+            cache-name: cache_realsense
+            image-tag: realsense
+          - dockerfile: DockerFiles/YDLidar.Dockerfile
+            cache-name: cache_ydlidar
+            image-tag: ydlidar
 
     env:
       IMAGE_NAME: jatinvpatil/naviclean
