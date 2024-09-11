@@ -50,6 +50,8 @@ RUN apt-get update \
     software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
+SHELL ["/bin/bash", "-c"]
+
 COPY naviclean_entrypoint.bash /naviclean_entrypoint.bash
 
 RUN chmod +x /naviclean_entrypoint.bash
