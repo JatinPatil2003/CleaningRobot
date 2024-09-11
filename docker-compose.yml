@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  autonav:
+    image: jatinvpatil/naviclean:latest
+    command: >
+      ros2 launch naviclean_bringup bringup.launch.py
+    devices:
+      - "/dev/ttyACM0:/dev/ttyACM0"
+    volumes:
+      - "~/CleaningRobot:/colcon_ws/src"
+    restart: unless-stopped
+    network_mode: "host"
+
