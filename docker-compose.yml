@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   autonav:
-    image: jatinvpatil/naviclean:latest
+    image: jatinvpatil/naviclean:naviclean
     command: >
       ros2 launch naviclean_bringup bringup.launch.py
     devices:
