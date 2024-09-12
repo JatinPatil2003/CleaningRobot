@@ -9,7 +9,7 @@ services:
       - "/dev/ttyACM0:/dev/ttyACM0"
     volumes:
       - "~/CleaningRobot:/colcon_ws/src"
-    restart: unless-stopped
+    # restart: unless-stopped
     network_mode: "host"
 
   ydlidar:
@@ -20,19 +20,19 @@ services:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
     volumes:
       - "~/CleaningRobot/ydlidar_ros2_driver:/colcon_ws/src/ydlidar_ros2_driver"
-    restart: unless-stopped
+    # restart: unless-stopped
     network_mode: "host"
 
-  realsense:
-    image: jatinvpatil/naviclean:realsense
-    command: >
-      ros2 launch realsense2_camera rs_launch.py camera_name:='real_sense' pointcloud.enable:=true
-    privileged: true
-    network_mode: host
-    devices:
-      - /dev:/dev
-    device_cgroup_rules:
-      - 'c 81:* rmw'
-      - 'c 189:* rmw'
-    restart: unless-stopped
+  # realsense:
+  #   image: jatinvpatil/naviclean:realsense
+  #   command: >
+  #     ros2 launch realsense2_camera rs_launch.py camera_name:='real_sense' pointcloud.enable:=true
+  #   privileged: true
+  #   network_mode: host
+  #   devices:
+  #     - /dev:/dev
+  #   device_cgroup_rules:
+  #     - 'c 81:* rmw'
+  #     - 'c 189:* rmw'
+  #   restart: unless-stopped
 
