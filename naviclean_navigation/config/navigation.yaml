@@ -36,7 +36,7 @@ amcl:
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    scan_topic: scan_filtered
+    scan_topic: /scan_filtered
     map_topic: map
     set_initial_pose: true
     always_reset_initial_pose: false
@@ -68,7 +68,7 @@ bt_navigator:
     goals_blackboard_id: goals
     path_blackboard_id: path
     action_server_result_timeout: 20
-    # default_nav_to_pose_bt_xml: "$(find-pkg-share naviclean_navigation)/bt_tree/coverage.xml"
+    default_nav_to_pose_bt_xml: "$(find-pkg-share naviclean_navigation)/bt_tree/coverage.xml"
     navigators: ['navigate_to_pose', 'navigate_through_poses']
     navigate_to_pose:
       plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
@@ -150,57 +150,34 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.08
-      yaw_goal_tolerance: 0.1
+      xy_goal_tolerance: 0.1
+      yaw_goal_tolerance: 0.15
     # DWB parameters
     FollowPath:
-      plugin: "nav2_rotation_shim_controller::RotationShimController"
-      primary_controller: "dwb_core::DWBLocalPlanner"
-      angular_dist_threshold: 0.1
-      forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 1.0
-      max_angular_accel: 2.0
-      simulate_ahead_time: 0.3
-
-      debug_trajectory_details: True
-      min_vel_x: 0.0
-      min_vel_y: 0.0
-      max_vel_x: 0.15
-      max_vel_y: 0.0
-      max_vel_theta: 1.0
-      min_speed_xy: 0.0
-      max_speed_xy: 0.8
-      min_speed_theta: 0.0
-      # Add high threshold velocity for turtlebot 3 issue.
-      # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
-      acc_lim_x: 1.0
-      acc_lim_y: 0.0
-      acc_lim_theta: 2.0
-      decel_lim_x: -1.0
-      decel_lim_y: 0.0
-      decel_lim_theta: -2.0
-      vx_samples: 20
-      vy_samples: 5
-      vtheta_samples: 20
-      sim_time: 1.5
-      linear_granularity: 0.05
-      angular_granularity: 0.025
+      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
+      desired_linear_vel: 0.20
+      lookahead_dist: 0.6
+      min_lookahead_dist: 0.3
+      max_lookahead_dist: 0.9
+      lookahead_time: 1.5
+      rotate_to_heading_angular_vel: 1.8
       transform_tolerance: 0.1
-      xy_goal_tolerance: 0.10
-      trans_stopped_velocity: 0.25
-      short_circuit_trajectory_evaluation: True
-      stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 32.0
-      GoalDist.scale: 24.0
-      RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 5.0
-      RotateToGoal.lookahead_time: -1.0
+      use_velocity_scaled_lookahead_dist: false
+      min_approach_linear_velocity: 0.05
+      approach_velocity_scaling_dist: 0.6
+      use_collision_detection: true
+      max_allowed_time_to_collision_up_to_carrot: 1.0
+      use_regulated_linear_velocity_scaling: true
+      use_fixed_curvature_lookahead: false
+      curvature_lookahead_dist: 0.25
+      use_cost_regulated_linear_velocity_scaling: false
+      regulated_linear_scaling_min_radius: 0.9
+      regulated_linear_scaling_min_speed: 0.25
+      use_rotate_to_heading: true
+      allow_reversing: false
+      rotate_to_heading_min_angle: 0.785
+      max_angular_accel: 3.2
+      max_robot_pose_search_dist: 10.0
 
 velocity_smoother:
   ros__parameters:
@@ -233,16 +210,16 @@ local_costmap:
       robot_base_frame: base_footprint
       use_sim_time: True
       rolling_window: true
-      lethal_cost_threshold: 20
-      width: 3
-      height: 3
+      lethal_cost_threshold: 10
+      width: 2
+      height: 2
       resolution: 0.02
       robot_radius: 0.225
       # footprint: "[[-0.225, -0.225], [-0.225, 0.225], [0.225, 0.225], [0.225, -0.225]]"
       plugins: ["obstacle_layer", "inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 1.2
+        cost_scaling_factor: 10.0
         inflation_radius: 0.24
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -283,7 +260,7 @@ global_costmap:
       # footprint: "[[-0.245, -0.215], [-0.245, 0.215], [0.245, 0.215], [0.245, -0.215]]"
       resolution: 0.05
       track_unknown_space: true
-      lethal_cost_threshold: 20
+      lethal_cost_threshold: 10
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -312,7 +289,7 @@ global_costmap:
         transform_tolerance: 0.1
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 2.0
+        cost_scaling_factor: 5.0
         inflation_radius: 0.25
         inflate_unknown: false
         inflate_around_unknown: true
