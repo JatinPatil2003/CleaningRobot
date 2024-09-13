@@ -11,7 +11,8 @@ RUN git clone https://github.com/YDLIDAR/YDLidar-SDK.git \
     && make install
 
 RUN apt-get update && apt-get install -y \
-    ros-humble-rmw-cyclonedds-cpp 
+    ros-humble-rmw-cyclonedds-cpp \
+    ros-humble-nav2-common
 
 COPY naviclean_entrypoint.bash /naviclean_entrypoint.bash
 
