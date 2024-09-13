@@ -20,6 +20,7 @@ from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch.actions import LogInfo
+from launch.actions import IncludeLaunchDescription
 
 import lifecycle_msgs.msg
 import os
@@ -44,6 +45,14 @@ def generate_launch_description():
         emulate_tty=True,
         parameters=[parameter_file],
         namespace="/",
+    )
+
+    laser_filter = IncludeLaunchDescription(
+        os.path.join(
+            get_package_share_directory("ydlidar_ros2_driver"),
+            "launch",
+            "laser_filter.launch.py",
+        )
     )
 
     return LaunchDescription(

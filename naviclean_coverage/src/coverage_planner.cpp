@@ -19,8 +19,8 @@ CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
     // Default offsets and pixels
     x_offset_ = 0.0;
     y_offset_ = 0.0;
-    robot_pixel_ = static_cast<int>(0.25 / resolution_); // Example value, adjust as needed
-    tool_pixel_ = static_cast<int>(0.25 * 2 / resolution_); // Example value, adjust as needed
+    robot_pixel_ = static_cast<int>(0.15 / resolution_); // Example value, adjust as needed
+    tool_pixel_ = static_cast<int>(0.15 * 2 / resolution_); // Example value, adjust as needed
 
     display_modified_map();
 }
