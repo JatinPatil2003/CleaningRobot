@@ -59,5 +59,6 @@ def generate_launch_description():
         [
             params_declare,
             driver_node,
+            laser_filter,
         ]
     )
