@@ -8,7 +8,7 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
-MAP_NAME = 'exi'  # change to the name of your own map here
+MAP_NAME = 'L516'  # change to the name of your own map here
 
 
 def generate_launch_description():

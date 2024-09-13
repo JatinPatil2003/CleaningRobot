@@ -2,6 +2,7 @@ name: NaviClean_CI
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   build:
