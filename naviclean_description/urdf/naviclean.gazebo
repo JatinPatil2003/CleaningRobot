@@ -35,7 +35,7 @@
     <mu2>0.2</mu2>
   </gazebo>
 
-  <!-- <gazebo>
+  <gazebo>
     <plugin name="diff_drive_control" filename="libgazebo_ros_diff_drive.so">
 
       <update_rate>20</update_rate>
@@ -55,7 +55,7 @@
       <robot_base_frame>base_footprint</robot_base_frame>
 
     </plugin>
-  </gazebo> -->
+  </gazebo>
 
   <!-- hokuyo -->
   <gazebo reference="ydlidar_1">
@@ -89,15 +89,12 @@
     </sensor>
   </gazebo>
 
-  <gazebo>
+  <!-- <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
       <robot_param>robot_description</robot_param>
       <robot_param_node>robot_state_publisher</robot_param_node>
       <parameters>$(find naviclean_controller)/config/naviclean_controller.yaml</parameters>
-      <!-- <ros>
-        <remapping>/naviclean_controller/cmd_vel_unstamped:=/cmd_vel</remapping>
-      </ros> -->
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
 </robot>
