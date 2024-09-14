@@ -16,6 +16,14 @@ def generate_launch_description():
         )
     )
 
+    odom_repub = Node(
+        package="topic_tools",
+        executable="relay",
+        name="odom_relay",
+        output="screen",
+        arguments=["/odom", "/naviclean_controller/odom"],
+    )
+
     controller = IncludeLaunchDescription(
         os.path.join(
             get_package_share_directory("naviclean_controller"),
@@ -27,6 +35,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             gazebo,
-            controller,
+            # controller,
+            odom_repub,
         ]
     )
