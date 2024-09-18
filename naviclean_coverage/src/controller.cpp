@@ -43,6 +43,7 @@ void SendGoal::result_callback(const GoalHandleNavigateToPose::WrappedResult & r
             RCLCPP_ERROR(node_->get_logger(), "Unknown result code");
             break;
     }
+    feedback_.distance_remaining = 0.0;
     // rclcpp::shutdown();
 }
 

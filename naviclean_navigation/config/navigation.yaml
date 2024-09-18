@@ -195,7 +195,7 @@ velocity_smoother:
     odom_topic: /naviclean_controller/odom
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
-    velocity_timeout: 0.3
+    velocity_timeout: 0.1
 
 controller_server_rclcpp_node:
   ros__parameters:

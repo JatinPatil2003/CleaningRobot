@@ -7,6 +7,8 @@
 #include <opencv2/opencv.hpp>
 #include <yaml-cpp/yaml.h>
 #include <vector>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <nav_msgs/msg/path.hpp>
 
 class CoveragePlanner : public MapLoader, SendGoal {
 public:
@@ -62,6 +64,12 @@ private:
     void mapToWorld(unsigned int mx, unsigned int my, double & wx, double & wy) const;
 
     void display_map(const cv::Mat& map_image);
+
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_;
+    rclcpp::TimerBase::SharedPtr timer_;
+    
+
+    void publish_path();
 };
 
 #endif // COVERAGE_PLANNER_HPP

@@ -19,10 +19,43 @@ CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
     // Default offsets and pixels
     x_offset_ = 0.0;
     y_offset_ = 0.0;
-    robot_pixel_ = static_cast<int>(0.15 / resolution_); // Example value, adjust as needed
-    tool_pixel_ = static_cast<int>(0.15 * 2 / resolution_); // Example value, adjust as needed
+    robot_pixel_ = static_cast<int>(0.225 / resolution_); // Example value, adjust as needed
+    tool_pixel_ = static_cast<int>(0.225 * 2 / resolution_); // Example value, adjust as needed
+
+    path_publisher_ = node_->create_publisher<nav_msgs::msg::Path>("coverage_path", 10);
+
+    timer_ = node_->create_wall_timer(
+        std::chrono::milliseconds(1000),
+        std::bind(&CoveragePlanner::publish_path, this)
+    );
+
+    timer_->cancel();
 
     display_modified_map();
+}
+
+void CoveragePlanner::publish_path()
+{
+    for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
+    {
+        nav_msgs::msg::Path path;
+        for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
+        {
+            geometry_msgs::msg::PoseStamped pose_stamped;
+            pose_stamped.header.frame_id = "map";
+            pose_stamped.header.stamp = node_->get_clock()->now();
+            pose_stamped.pose.position.x = goal_points_[i][j].x;
+            pose_stamped.pose.position.y = goal_points_[i][j].y;
+            pose_stamped.pose.position.z = 0.0;
+            pose_stamped.pose.orientation.w = 1.0; 
+
+            path.poses.push_back(pose_stamped);
+            
+        }
+        path.header.frame_id = "map";
+        path.header.stamp = node_->get_clock()->now();  // Update the timestamp
+        path_publisher_->publish(path);
+    }
 }
 
 bool CoveragePlanner::distance_to_nearest_black(int y, int x) const
@@ -282,6 +315,7 @@ void CoveragePlanner::display_map(const cv::Mat& map_image) {
 }
 
 void CoveragePlanner::start(){
+    timer_->reset();
     for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
     {
         for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
@@ -292,9 +326,14 @@ void CoveragePlanner::start(){
             {
                 std::cout << get_feedback() << std::endl;
                 std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Prevent busy-waiting
-            } while (get_feedback() >= 0.15);
+            } while (get_feedback() >= 0.09);
 
-            cancel_goal();
+            if (get_feedback() != 0.0)
+            {
+                cancel_goal();
+            }
+            
+            
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
             
             // while(get_feedback() >= 0.15){
