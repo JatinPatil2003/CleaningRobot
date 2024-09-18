@@ -45,6 +45,8 @@ private:
     double y_offset_;
     int robot_pixel_;
     int tool_pixel_;
+    bool show_image_;
+    bool repeat_cleaning_;
 
     // Member variables
     cv::Mat map_image_;

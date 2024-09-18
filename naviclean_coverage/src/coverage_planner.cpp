@@ -8,7 +8,17 @@
 CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
     : MapLoader(node), SendGoal(node), node_(node)
 {
-    // Initialize map parameters
+    node_->declare_parameter<double>("robot_radius", 0.225);  
+    node_->declare_parameter<double>("tool_radius", 0.35); 
+    node_->declare_parameter<bool>("show_image", true);
+    node_->declare_parameter<bool>("repeat_cleaning", true);
+
+    auto robot_radius = node_->get_parameter("robot_radius").as_double();
+    auto tool_radius = node_->get_parameter("tool_radius").as_double();
+    show_image_ = node_->get_parameter("show_image").as_bool();
+    repeat_cleaning_ = node_->get_parameter("repeat_cleaning").as_bool();
+
+
     map_data_ = MapLoader::get_map_data();
     map_image_ = MapLoader::get_map_image();
 
@@ -19,8 +29,8 @@ CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
     // Default offsets and pixels
     x_offset_ = 0.0;
     y_offset_ = 0.0;
-    robot_pixel_ = static_cast<int>(0.225 / resolution_); // Example value, adjust as needed
-    tool_pixel_ = static_cast<int>(0.35 / resolution_); // Example value, adjust as needed
+    robot_pixel_ = static_cast<int>(robot_radius / resolution_); // Example value, adjust as needed
+    tool_pixel_ = static_cast<int>(tool_radius / resolution_); // Example value, adjust as needed
 
     path_publisher_ = node_->create_publisher<nav_msgs::msg::Path>("coverage_path", 10);
 
@@ -171,11 +181,13 @@ void CoveragePlanner::display_modified_map()
                       << std::endl;
         }
 
-        std::thread display_thread([this, modified_map]() {
-            this->display_map(modified_map);
-        });
-        display_thread.detach();
-
+        if(show_image_)
+        {
+            std::thread display_thread([this, modified_map]() {
+                this->display_map(modified_map);
+            });
+            display_thread.detach();
+        }
     }
     else
     {
@@ -309,7 +321,6 @@ std::vector<std::vector<cv::Point2f>> CoveragePlanner::optimize_points()
 }
 
 void CoveragePlanner::display_map(const cv::Mat& map_image) {
-    std::cout << map_image_.rows * resolution_ << std::endl;
     cv::namedWindow("Modified Map", cv::WINDOW_NORMAL); // Make the window resizable
     cv::imshow("Modified Map", map_image);           // Display the modified grayscale map
     cv::waitKey(0);
@@ -318,32 +329,27 @@ void CoveragePlanner::display_map(const cv::Mat& map_image) {
 
 void CoveragePlanner::start(){
     timer_->reset();
-    for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
+    do
     {
-        for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
+        for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
         {
-            std::cout << goal_points_[i][j] << std::endl;
-            set_goal(goal_points_[i][j].x, goal_points_[i][j].y);
-            do
+            for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
             {
-                std::cout << get_feedback() << std::endl;
-                std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Prevent busy-waiting
-            } while (get_feedback() >= 0.09);
+                std::cout << goal_points_[i][j] << std::endl;
+                set_goal(goal_points_[i][j].x, goal_points_[i][j].y);
+                do
+                {
+                    std::cout << get_feedback() << std::endl;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Prevent busy-waiting
+                } while (get_feedback() >= 0.09);
 
-            if (get_feedback() != 0.0)
-            {
-                cancel_goal();
+                if (get_feedback() != 0.0)
+                {
+                    cancel_goal();
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(200));
             }
-            
-            
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
-            
-            // while(get_feedback() >= 0.15){
-            //     rclcpp::spin_some(node_);
-            // }
-            
+            std::cout << std::endl << std::endl;
         }
-        std::cout << std::endl
-                    << std::endl;
-    }
+    } while (repeat_cleaning_);
 }

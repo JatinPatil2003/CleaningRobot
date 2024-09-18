@@ -155,11 +155,11 @@ controller_server:
     # DWB parameters
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.20
+      desired_linear_vel: 0.5
       lookahead_dist: 0.35
       min_lookahead_dist: 0.3
       max_lookahead_dist: 0.9
-      lookahead_time: 0.8
+      lookahead_time: 0.8 
       rotate_to_heading_angular_vel: 1.8
       transform_tolerance: 0.1
       use_velocity_scaled_lookahead_dist: false
@@ -195,7 +195,7 @@ velocity_smoother:
     odom_topic: /naviclean_controller/odom
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
-    velocity_timeout: 0.3
+    velocity_timeout: 0.1
 
 controller_server_rclcpp_node:
   ros__parameters:

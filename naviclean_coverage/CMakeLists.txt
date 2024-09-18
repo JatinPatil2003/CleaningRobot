@@ -29,6 +29,11 @@ add_executable(coverage_planner_node
   src/coverage_planner_node.cpp
 )
 
+install(
+  DIRECTORY launch config
+  DESTINATION share/${PROJECT_NAME}
+)
+
 # Link libraries
 target_link_libraries(coverage_planner_node
   ${OpenCV_LIBRARIES}
