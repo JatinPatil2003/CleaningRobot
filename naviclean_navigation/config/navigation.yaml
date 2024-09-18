@@ -68,7 +68,7 @@ bt_navigator:
     goals_blackboard_id: goals
     path_blackboard_id: path
     action_server_result_timeout: 20
-    default_nav_to_pose_bt_xml: "$(find-pkg-share naviclean_navigation)/bt_tree/coverage.xml"
+    # default_nav_to_pose_bt_xml: "$(find-pkg-share naviclean_navigation)/bt_tree/coverage.xml"
     navigators: ['navigate_to_pose', 'navigate_through_poses']
     navigate_to_pose:
       plugin: "nav2_bt_navigator/NavigateToPoseNavigator"
@@ -155,7 +155,7 @@ controller_server:
     # DWB parameters
     FollowPath:
       plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 0.20
+      desired_linear_vel: 0.35
       lookahead_dist: 0.35
       min_lookahead_dist: 0.2
       max_lookahead_dist: 0.5
@@ -195,7 +195,7 @@ velocity_smoother:
     odom_topic: /naviclean_controller/odom
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
-    velocity_timeout: 0.3
+    velocity_timeout: 0.1
 
 controller_server_rclcpp_node:
   ros__parameters:

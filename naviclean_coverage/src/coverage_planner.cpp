@@ -19,7 +19,7 @@ CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
     // Default offsets and pixels
     x_offset_ = 0.0;
     y_offset_ = 0.0;
-    robot_pixel_ = static_cast<int>(0.25 / resolution_); // Example value, adjust as needed
+    robot_pixel_ = static_cast<int>(0.225 / resolution_); // Example value, adjust as needed
     tool_pixel_ = static_cast<int>(0.35 / resolution_); // Example value, adjust as needed
 
     path_publisher_ = node_->create_publisher<nav_msgs::msg::Path>("coverage_path", 10);
