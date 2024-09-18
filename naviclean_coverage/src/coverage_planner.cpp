@@ -19,8 +19,8 @@ CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
     // Default offsets and pixels
     x_offset_ = 0.0;
     y_offset_ = 0.0;
-    robot_pixel_ = static_cast<int>(0.225 / resolution_); // Example value, adjust as needed
-    tool_pixel_ = static_cast<int>(0.225 * 2 / resolution_); // Example value, adjust as needed
+    robot_pixel_ = static_cast<int>(0.25 / resolution_); // Example value, adjust as needed
+    tool_pixel_ = static_cast<int>(0.35 / resolution_); // Example value, adjust as needed
 
     path_publisher_ = node_->create_publisher<nav_msgs::msg::Path>("coverage_path", 10);
 
@@ -83,8 +83,9 @@ bool CoveragePlanner::distance_to_nearest_black(int y, int x) const
 
 void CoveragePlanner::mapToWorld(unsigned int mx, unsigned int my, double &wx, double &wy) const
 {
-    wx = origin_x_ + (mx + 0.5) * resolution_;
-    wy = - origin_y_ - (my + 0.5) * resolution_;
+    wx = map_image_.cols * resolution_ + origin_x_ - (map_image_.cols - mx + 0.5) * resolution_;
+    wy = origin_y_ + (map_image_.rows - my + 0.5) * resolution_;
+    // wy (map_image_.cols * resolution_ / 2) = -(map_image_.rows * resolution_ / 2) - origin_y_ - (my + 0.5) * resolution_;
 }
 
 cv::Point2f CoveragePlanner::pixel_to_map_coordinates(int x, int y) const
@@ -308,6 +309,7 @@ std::vector<std::vector<cv::Point2f>> CoveragePlanner::optimize_points()
 }
 
 void CoveragePlanner::display_map(const cv::Mat& map_image) {
+    std::cout << map_image_.rows * resolution_ << std::endl;
     cv::namedWindow("Modified Map", cv::WINDOW_NORMAL); // Make the window resizable
     cv::imshow("Modified Map", map_image);           // Display the modified grayscale map
     cv::waitKey(0);
