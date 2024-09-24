@@ -1,0 +1,7 @@
+image: cleaning_10x10.pgm
+mode: trinary
+resolution: 0.05
+origin: [-4.87, -4.9, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.25

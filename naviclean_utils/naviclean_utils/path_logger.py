@@ -17,6 +17,7 @@ class PathPublisher(Node):
 
         # Initialize the Path message
         self.path = Path()
+        self.pose = PoseStamped()
         self.path.header.frame_id = "map"  # Set to 'map' since amcl_pose provides pose relative to the map frame
 
         # Timer to publish the path at a regular interval
@@ -37,15 +38,19 @@ class PathPublisher(Node):
 
         # Set the orientation from the amcl_pose message
         pose_stamped.pose.orientation = msg.pose.pose.orientation
+        self.pose = pose_stamped
         
         # Append the current pose to the path
         self.path.poses.append(pose_stamped)
 
     def publish_path(self):
         # Update the path header's timestamp
+        with open("robot_path.txt", "a") as f:
+            print(f"[{self.pose.pose.position.x}, {self.pose.pose.position.y}]", file=f)
         self.path.header.stamp = self.get_clock().now().to_msg()
 
         # Publish the path
+        # print("publish")
         self.path_publisher.publish(self.path)
 
 def main(args=None):

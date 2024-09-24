@@ -1,7 +1,7 @@
 coverage_planner_node:
   ros__parameters:
     robot_radius: 0.225
-    tool_radius: 0.35
+    tool_radius: 0.4
     show_image: true
     repeat_cleaning: true
     yaml_file: "/home/jatin/clean.yaml"  # Path to the map YAML file

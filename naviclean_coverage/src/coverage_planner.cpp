@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <thread>
 
+#include <fstream>
+#include <string>
+
 CoveragePlanner::CoveragePlanner(rclcpp::Node::SharedPtr node)
     : MapLoader(node), SendGoal(node), node_(node)
 {
@@ -107,6 +110,7 @@ cv::Point2f CoveragePlanner::pixel_to_map_coordinates(int x, int y) const
 
 void CoveragePlanner::display_modified_map()
 {
+    RCLCPP_INFO(node_->get_logger(), "Started Coverage Planning");
     if (!map_image_.empty())
     {
         cv::Mat modified_map = map_image_.clone();
@@ -147,6 +151,8 @@ void CoveragePlanner::display_modified_map()
 
         goal_points_ = optimize_points();
 
+        RCLCPP_INFO(node_->get_logger(), "Finished Coverage Planning");
+
         for (const auto &points : goal_points_)
         {
             if (points.size() < 2)
@@ -171,15 +177,24 @@ void CoveragePlanner::display_modified_map()
 
         goal_points_ = generate_map_points(goal_points_);
 
+        std::ofstream outFile("output.txt");
+        if (!outFile.is_open()) {
+            std::cerr << "Error opening file!" << std::endl;
+        }
+
         for (auto i = 0; i < static_cast<int>(goal_points_.size()); ++i)
         {
             for (auto j = 0; j < static_cast<int>(goal_points_[i].size()); ++j)
             {
                 std::cout << goal_points_[i][j] << std::endl;
+                outFile << goal_points_[i][j] << std::endl;
             }
             std::cout << std::endl
                       << std::endl;
+            outFile << std::endl;
         }
+        
+        outFile.close();
 
         if(show_image_)
         {

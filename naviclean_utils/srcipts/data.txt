@@ -1,0 +1,8 @@
+[coverage_planner_node-1] [INFO] [1726935885.393285920] [coverage_planner_node]: Started Coverage Planning
+[coverage_planner_node-1] [INFO] [1726935885.393508833] [coverage_planner_node]: Finished Coverage Planning
+
+[coverage_planner_node-1] [INFO] [1727027094.079682188] [coverage_planner_node]: Started Coverage Planning
+[coverage_planner_node-1] [INFO] [1727027094.079872878] [coverage_planner_node]: Finished Coverage Planning
+
+[coverage_planner_node-1] [INFO] [1727089597.203518175] [coverage_planner_node]: Started Coverage Planning
+[coverage_planner_node-1] [INFO] [1727089597.203663152] [coverage_planner_node]: Finished Coverage Planning

@@ -1,3 +1,5 @@
+import os
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
@@ -5,11 +7,18 @@ from launch_ros.actions import Node
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
+from ament_index_python.packages import get_package_share_directory
+
 
 def generate_launch_description():
+
+    naviclean_coverage = get_package_share_directory("naviclean_mapping")
+
+    map_yaml_file = os.path.join(naviclean_coverage, "maps", "cleaning_10x10.yaml")
+
     map_yaml_file_arg = DeclareLaunchArgument(
-        "yaml_file",
-        default_value="/home/jatin/clean.yaml",  
+        "map",
+        default_value=map_yaml_file,  
         description="Full path to the map YAML file",
     )
 
@@ -30,7 +39,7 @@ def generate_launch_description():
         parameters=[
             LaunchConfiguration("param_file"),  # Load parameters from the param file
             {
-                "yaml_file": LaunchConfiguration("yaml_file")
+                "yaml_file": LaunchConfiguration("map")
             },  
         ],
     )

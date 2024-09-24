@@ -16,8 +16,8 @@ def generate_launch_description():
         [FindPackageShare('naviclean_mapping'), 'config', 'slam.yaml']
     )
 
-    nav2_config_path = PathJoinSubstitution(
-        [FindPackageShare('naviclean_mapping'), 'config', 'mapping.yaml']
+    rviz_config_path = PathJoinSubstitution(
+        [FindPackageShare('naviclean_mapping'), 'rviz', 'slam.rviz']
     )
 
     return LaunchDescription([
@@ -41,4 +41,14 @@ def generate_launch_description():
                 'params_file': slam_config_path
             }.items()
         ),
+
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            arguments=['-d', rviz_config_path],
+            condition=IfCondition(LaunchConfiguration('rviz')),
+            parameters=[{'use_sim_time': LaunchConfiguration('sim')}]
+        )
     ])

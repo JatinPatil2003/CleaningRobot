@@ -22,7 +22,7 @@ def generate_launch_description():
     naviclean_description_prefix = get_package_prefix("naviclean_description")
     gazebo_ros_dir = get_package_share_directory("gazebo_ros")
 
-    world = os.path.join(naviclean_description, "worlds", "cafe.world")
+    world = os.path.join(naviclean_description, "worlds", "cleaningtest_5x5.world")
 
     # Set the environment variable
     model_path = os.path.join(naviclean_description, "models")
