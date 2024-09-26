@@ -16,9 +16,6 @@ services:
     devices:
       - /dev/input/js*
       - /dev/bus/usb:/dev/bus/usb
-    networks:
-      - alpha_bot_network
-    # restart: unless-stopped
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
