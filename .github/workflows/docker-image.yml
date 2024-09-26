@@ -21,9 +21,13 @@ jobs:
           - dockerfile: DockerFiles/YDLidar.Dockerfile
             cache-name: cache_ydlidar
             image-tag: ydlidar
+          - dockerfile: DockerFiles/Controller.Dockerfile
+            cache-name: cache_controller
+            image-tag: controller
 
     env:
       IMAGE_NAME: jatinvpatil/naviclean
+      CACHE_IMAGE_NAME: jatinvpatil/naviclean_cache
 
     steps:
     - name: Checkout code
@@ -49,7 +53,7 @@ jobs:
         docker buildx build \
             --platform=linux/arm64,linux/amd64 \
             --cache-from type=registry,ref=${{ env.IMAGE_NAME }}:${{ matrix.cache-name }} \
-            --cache-to type=registry,ref=${{ env.IMAGE_NAME }}:${{ matrix.cache-name }},mode=max \
+            --cache-to type=registry,ref=${{ env.CACHE_IMAGE_NAME }}:${{ matrix.cache-name }},mode=max \
             --push \
             -t $IMAGE_NAME:${{ matrix.image-tag }} \
             -f ${{ matrix.dockerfile }} \
