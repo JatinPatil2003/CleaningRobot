@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY /naviclean_controller /colcon_ws/src/naviclean_controller
 
+WORKDIR /colcon_ws
+
 RUN source /opt/ros/${ROS_DISTRO}/setup.sh \
     && colcon build --symlink-install \
     && rm -rf log/ build/ src/ \
@@ -23,7 +25,6 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.sh \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
     
-
 COPY ./naviclean_entrypoint.bash /naviclean_entrypoint.bash
 RUN chmod +x /naviclean_entrypoint.bash
 
