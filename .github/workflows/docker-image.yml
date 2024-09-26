@@ -52,7 +52,7 @@ jobs:
       run: |
         docker buildx build \
             --platform=linux/arm64,linux/amd64 \
-            --cache-from type=registry,ref=${{ env.IMAGE_NAME }}:${{ matrix.cache-name }} \
+            --cache-from type=registry,ref=${{ env.CACHE_IMAGE_NAME }}:${{ matrix.cache-name }} \
             --cache-to type=registry,ref=${{ env.CACHE_IMAGE_NAME }}:${{ matrix.cache-name }},mode=max \
             --push \
             -t $IMAGE_NAME:${{ matrix.image-tag }} \
