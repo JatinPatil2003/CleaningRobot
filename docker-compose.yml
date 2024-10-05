@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  autonav:
+  naviclean:
     image: jatinvpatil/naviclean:naviclean
     command: >
       ros2 launch naviclean_bringup bringup.launch.py
@@ -9,7 +9,7 @@ services:
       - "/dev/ttyACM0:/dev/ttyACM0"
     volumes:
       - "~/CleaningRobot:/colcon_ws/src"
-    # restart: unless-stopped
+    restart: unless-stopped
     network_mode: "host"
 
   ydlidar:
@@ -20,7 +20,7 @@ services:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
     volumes:
       - "~/CleaningRobot/ydlidar_ros2_driver:/colcon_ws/src/ydlidar_ros2_driver"
-    # restart: unless-stopped
+    restart: unless-stopped
     network_mode: "host"
 
   # realsense:
