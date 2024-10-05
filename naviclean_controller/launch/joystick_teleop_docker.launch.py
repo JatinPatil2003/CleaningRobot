@@ -1,7 +1,7 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, TimerAction
 
 
 import os
@@ -17,6 +17,8 @@ def generate_launch_description():
             executable='joy_node',
             parameters=[joy_params, {'use_sim_time': use_sim_time}],
          )
+    
+    delayed_joy_node = TimerAction(period=15.0, actions=[joy_node])
 
     teleop_node = Node(
             package='teleop_twist_joy',
@@ -31,6 +33,6 @@ def generate_launch_description():
             'use_sim_time',
             default_value='false',
             description='Use sim time if true'),
-        joy_node,
+        delayed_joy_node,
         teleop_node      
     ])
